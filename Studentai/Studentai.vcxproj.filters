@@ -18,5 +18,19 @@
     <ClCompile Include="Studentai.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="03v.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="03v1.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="03v.h">
+      <Filter>Source Files</Filter>
+    </ClInclude>
+    <ClInclude Include="03v1.h">
+      <Filter>Source Files</Filter>
+    </ClInclude>
   </ItemGroup>
 </Project>
