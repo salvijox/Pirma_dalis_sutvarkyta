@@ -1,8 +1,11 @@
 // Studentai.cpp : This file contains the 'main' function. Program execution begins and ends there.
 //
 
+// v.05.cpp : // This file contains the 'main' function. Program execution begins and ends there.
+//
 #include <iostream>
 #include <vector>
+#include <list>
 #include <iomanip>
 #include <algorithm>
 #include <string>
@@ -15,23 +18,23 @@ struct StudentData {
 	string name;
 	string surname;
 	int egzamResult;
-	vector<int> homeworksGrades;
+	list<int> homeworksGrades;
 	float finalResult = 0;
 };
 
 void WriteTelemetryToConsole(int count);
 void TestSpeed();
 bool CompareFunc(StudentData studentData0, StudentData studentData1);
-vector <StudentData> ReadDataFromFile(string fileName);
+list<StudentData> ReadDataFromFile(string fileName);
 void GenerateFile(int fileId, int count);
-vector <StudentData> GenerateData(int count);
+list <StudentData> GenerateData(int count);
 float finalGrade(StudentData studentsData);
 void RandomGradesGenerator(StudentData& studentsData);
 bool IsNumber(string s);
-float FindMedian(vector <int> homeworksGrades);
+float FindMedian(vector<int> homeworksGrades);
 void ReadGradesFromConsole(StudentData& studentsData);
-float Average(vector <int> homeworksGrades);
-void GetData(vector <StudentData>& data);
+float Average(list<int> homeworksGrades);
+void GetData(vector<StudentData>& data);
 
 //Speed analysis data
 int fileCreateStart = 0;
@@ -51,35 +54,6 @@ int fileWriteHighGradesEnd = 0;
 int main()
 {
 	TestSpeed();
-	//srand(time(0));
-
-	//vector <StudentData> studentsData;
-
-	//GetData(studentsData);
-
-	//if (studentsData.size() > 0)
-	//{
-	//	string howToCalculate;
-	//	cout << "Skaiciouti naudojant vidurki 'vid' ar mediana 'med'" << endl;
-	//	cin >> howToCalculate;
-
-	//	for (int i = 0; i < studentsData.size(); i++)
-	//	{
-	//		studentsData.at(i).finalResult = finalGrade(studentsData.at(i), howToCalculate);
-	//	}
-
-	//	// duomenu isvedimas
-	//	cout << left << setw(15) << "Vardas\t" << setw(20) << "Pavarde\t" << "Galutinis (Vid.) / Galutinis(Med.)" << endl;
-	//	cout << "----------------------------------------------------------------------------------" << endl;
-	//	for (int i = 0; i < studentsData.size(); i++)
-	//	{
-	//		cout << left << setw(15) << studentsData.at(i).name << "\t" << setw(20) << studentsData.at(i).surname << "\t" << fixed << setprecision(2) << studentsData.at(i).finalResult << endl;
-	//	}
-	//}
-	//else
-	//{
-	//	cout << "Duomenys neivesti" << endl;
-	//}
 
 	return 0;
 }
@@ -118,7 +92,7 @@ void GetData(vector <StudentData>& data)
 	}
 }
 
-float Average(vector <int> homeworksGrades)
+float Average(list<int> homeworksGrades)
 {
 	int sum = 0;
 
@@ -127,8 +101,9 @@ float Average(vector <int> homeworksGrades)
 		return 0;
 	}
 
-	for (unsigned int i = 0; i < homeworksGrades.size(); i++)
-		sum += homeworksGrades[i];
+	for (list<int>::iterator it = homeworksGrades.begin(); it != homeworksGrades.end(); ++it) {
+		sum += *it;
+	}
 
 	return sum * 1.0f / homeworksGrades.size();
 }
@@ -205,7 +180,7 @@ void ReadGradesFromConsole(StudentData& studentsData)
 	}
 }
 
-float FindMedian(vector <int> homeworksGrades)
+float FindMedian(vector<int> homeworksGrades)
 {
 	if (homeworksGrades.size() < 1)
 	{
@@ -279,8 +254,8 @@ float finalGrade(StudentData studentsData)//, string howToCalculate)
 	return studentsData.finalResult;
 }
 
-vector <StudentData> GenerateData(int count) {
-	vector <StudentData> studentlist;
+list <StudentData> GenerateData(int count) {
+	list <StudentData> studentlist;
 	for (int i = 0; i < count; i++) {
 		StudentData studentdata;
 		studentdata.name = "vardas" + to_string(i);
@@ -302,10 +277,12 @@ void GenerateFile(int fileId, int count) {
 	fileCreateEnd = time(0);
 
 	//Data generation and writing to file
-	vector <StudentData> studentlist = GenerateData(count);
-	for (int i = 0; i < count; i++) {
-		file << studentlist.at(i).name << " " << studentlist.at(i).surname << " " << studentlist.at(i).finalResult << endl;
+	list<StudentData> studentlist = GenerateData(count);
+
+	for (list<StudentData>::iterator it = studentlist.begin(); it != studentlist.end(); ++it) {
+		file << (*it).name << " " << (*it).surname << " " << (*it).finalResult << endl;
 	}
+
 	file.close();
 	studentlist.clear();
 
@@ -316,34 +293,34 @@ void GenerateFile(int fileId, int count) {
 
 	//Data sorting
 	dataSortStart = time(0);
-	sort(studentlist.begin(), studentlist.end(), CompareFunc);
+	studentlist.sort(CompareFunc);
 	dataSortEnd = time(0);
 
 	//Data splitting into two groups
 	dataSplitStart = time(0);
-	vector <StudentData> lowGradeStudentList;
-	vector <StudentData> highGradeStudentList;
+	list<StudentData> lowGradeStudentList;
+	list<StudentData> highGradeStudentList;
 
-	for (int i = 0; i < count; i++) {
-		if (studentlist.at(i).finalResult < 5.0) {
-			lowGradeStudentList.push_back(studentlist.at(i));
+	for (list<StudentData>::iterator it = studentlist.begin(); it != studentlist.end(); ++it) {
+		if ((*it).finalResult < 5.0) {
+			lowGradeStudentList.push_back((*it));
 		}
 		else {
-			highGradeStudentList.push_back(studentlist.at(i));
+			highGradeStudentList.push_back((*it));
 		}
 	}
 	dataSplitEnd = time(0);
 
 	//Data write file
 	fileWriteLowGradesStart = time(0);
-	for (int i = 0; i < lowGradeStudentList.size(); i++) {
-		lowGrade << lowGradeStudentList.at(i).name << " " << lowGradeStudentList.at(i).surname << " " << lowGradeStudentList.at(i).finalResult << endl;
+	for (list<StudentData>::iterator it = lowGradeStudentList.begin(); it != lowGradeStudentList.end(); ++it) {
+		lowGrade << (*it).name << " " << (*it).surname << " " << (*it).finalResult << endl;
 	}
 	fileWriteLowGradesEnd = time(0);
 
 	fileWriteHighGradesStart = time(0);
-	for (int i = 0; i < highGradeStudentList.size(); i++) {
-		highGrade << highGradeStudentList.at(i).name << " " << highGradeStudentList.at(i).surname << " " << highGradeStudentList.at(i).finalResult << endl;
+	for (list<StudentData>::iterator it = highGradeStudentList.begin(); it != highGradeStudentList.end(); ++it) {
+		highGrade << (*it).name << " " << (*it).surname << " " << (*it).finalResult << endl;
 	}
 	fileWriteHighGradesEnd = time(0);
 
@@ -351,8 +328,8 @@ void GenerateFile(int fileId, int count) {
 	highGrade.close();
 }
 
-vector <StudentData> ReadDataFromFile(string fileName) {
-	vector <StudentData> studentsDataList;
+list <StudentData> ReadDataFromFile(string fileName) {
+	list <StudentData> studentsDataList;
 
 	ifstream file;
 	file.open(fileName, ifstream::in);
@@ -399,6 +376,7 @@ void WriteTelemetryToConsole(int count) {
 	cout << "Failo su " << count << " irasu kietu su sort funkcija laikas: " << fileWriteHighGradesEnd - fileWriteHighGradesStart << endl;
 	cout << endl;
 }
+
 
 // Run program: Ctrl + F5 or Debug > Start Without Debugging menu
 // Debug program: F5 or Debug > Start Debugging menu
