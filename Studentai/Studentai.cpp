@@ -1,7 +1,7 @@
 // Studentai.cpp : This file contains the 'main' function. Program execution begins and ends there.
 //
 
-// v.05.cpp : // This file contains the 'main' function. Program execution begins and ends there.
+// v1.0.cpp : // This file contains the 'main' function. Program execution begins and ends there.
 //
 #include <iostream>
 #include <vector>
@@ -11,6 +11,7 @@
 #include <string>
 #include <fstream>
 #include <time.h>
+#include <chrono>
 
 using namespace std;
 
@@ -22,6 +23,25 @@ struct StudentData {
 	float finalResult = 0;
 };
 
+void AnalyzeSpeedWithLists(int fileId, int dataCount);
+void AnalyzeSpeedWithVectors(int fileId, int dataCount);
+list<StudentData> GenerateStudentsListData(int count);
+vector<StudentData> GenerateStudentsVectorData(int count);
+double GenerateStudentsFileFromStudentsList(int fileId, int count, list<StudentData>& studentList);
+double GenerateStudentsFileFromStudentsVector(int fileId, int count, vector<StudentData>& studentList);
+
+double ReadFromFileToStudentsList(int fileId, list<StudentData>& studentsList);
+
+double ReadFromFileToStudentsVector(int fileId, vector<StudentData>& studentsVector);
+
+double SortStudentsList(list<StudentData>& studentsList);
+double SortStudentsVector(vector<StudentData>& studentsVector);
+double DivideStudentsInTwoNewVectors(vector<StudentData>& studentsVector);
+double DivideSudentsInTwoNewLists(list<StudentData>& studentsList);
+double DivedeStudentsInSameVectorAndOnlyOneNewVector(vector<StudentData>& studentsVector);
+double DivedeStudentsInSameListAndOnlyOneNewList(list<StudentData>& studentsList);
+bool IsLessThan5(StudentData studentData);
+//------------------------------------------------------
 void WriteTelemetryToConsole(int count);
 void TestSpeed();
 bool CompareFunc(StudentData studentData0, StudentData studentData1);
@@ -53,12 +73,22 @@ int fileWriteHighGradesEnd = 0;
 
 int main()
 {
-	TestSpeed();
+	AnalyzeSpeedWithLists(0, 1000);
+	AnalyzeSpeedWithVectors(0, 1000);
+
+	AnalyzeSpeedWithLists(1, 10000);
+	AnalyzeSpeedWithVectors(1, 10000);
+
+	AnalyzeSpeedWithLists(2, 100000);
+	AnalyzeSpeedWithVectors(2, 100000);
+
+	AnalyzeSpeedWithLists(3, 1000000);
+	AnalyzeSpeedWithVectors(3, 1000000);
 
 	return 0;
 }
 
-void GetData(vector <StudentData>& data)
+void GetData(vector<StudentData>& data)
 {
 	int numberOfStudents;
 	cout << "Kiek studentu nuskaityti? " << endl;
@@ -254,8 +284,240 @@ float finalGrade(StudentData studentsData)//, string howToCalculate)
 	return studentsData.finalResult;
 }
 
-list <StudentData> GenerateData(int count) {
+list<StudentData> GenerateStudentsListData(int count) {
+
 	list <StudentData> studentlist;
+	for (int i = 0; i < count; i++) {
+		StudentData studentdata;
+		studentdata.name = "vardas" + to_string(i);
+		studentdata.surname = "pavarde" + to_string(i);
+
+		RandomGradesGenerator(studentdata);
+		studentdata.finalResult = finalGrade(studentdata);
+		studentlist.push_back(studentdata);
+	}
+
+	return studentlist;
+}
+
+vector<StudentData> GenerateStudentsVectorData(int count) {
+
+	vector <StudentData> studentlist;
+	for (int i = 0; i < count; i++) {
+		StudentData studentdata;
+		studentdata.name = "vardas" + to_string(i);
+		studentdata.surname = "pavarde" + to_string(i);
+
+		RandomGradesGenerator(studentdata);
+		studentdata.finalResult = finalGrade(studentdata);
+		studentlist.push_back(studentdata);
+	}
+
+	return studentlist;
+}
+
+double GenerateStudentsFileFromStudentsList(int fileId, int count, list<StudentData>& studentList) {
+
+	auto start = std::chrono::high_resolution_clock::now();
+
+	ofstream file("file" + to_string(fileId) + ".txt");
+	fileCreateEnd = time(0);
+
+	for (list<StudentData>::iterator it = studentList.begin(); it != studentList.end(); ++it) {
+		file << (*it).name << " " << (*it).surname << " " << (*it).finalResult << endl;
+	}
+
+	file.close();
+
+	auto end = std::chrono::high_resolution_clock::now();
+	std::chrono::duration<double> diff = end - start;
+
+	return diff.count();
+}
+
+double GenerateStudentsFileFromStudentsVector(int fileId, int count, vector<StudentData>& studentList) {
+
+	auto start = std::chrono::high_resolution_clock::now();
+
+	ofstream file("file" + to_string(fileId) + ".txt");
+	fileCreateEnd = time(0);
+
+	for (vector<StudentData>::iterator it = studentList.begin(); it != studentList.end(); ++it) {
+		file << (*it).name << " " << (*it).surname << " " << (*it).finalResult << endl;
+	}
+
+	file.close();
+
+	auto end = std::chrono::high_resolution_clock::now();
+	std::chrono::duration<double> diff = end - start;
+
+	return diff.count();
+}
+
+double ReadFromFileToStudentsList(int fileId, list<StudentData>& studentsList) {
+
+	ifstream file;
+	file.open("file" + to_string(fileId) + ".txt", ifstream::in);
+
+	auto start = std::chrono::high_resolution_clock::now();
+
+	while (true) {
+		StudentData studentData;
+
+		file >> studentData.name;
+		if (file.eof()) break;
+		file >> studentData.surname;
+		if (file.eof()) break;
+		file >> studentData.finalResult;
+		if (file.eof()) break;
+
+		studentsList.push_back(studentData);
+	}
+
+	auto end = std::chrono::high_resolution_clock::now();
+	std::chrono::duration<double> diff = end - start;
+
+	file.close();
+
+	return diff.count();
+}
+
+double ReadFromFileToStudentsVector(int fileId, vector<StudentData>& studentsVector) {
+
+	ifstream file;
+	file.open("file" + to_string(fileId) + ".txt", ifstream::in);
+
+	auto start = std::chrono::high_resolution_clock::now();
+
+	while (true) {
+		StudentData studentData;
+
+		file >> studentData.name;
+		if (file.eof()) break;
+		file >> studentData.surname;
+		if (file.eof()) break;
+		file >> studentData.finalResult;
+		if (file.eof()) break;
+		studentsVector.push_back(studentData);
+	}
+
+	auto end = std::chrono::high_resolution_clock::now();
+	std::chrono::duration<double> diff = end - start;
+
+	file.close();
+
+	return diff.count();
+}
+
+double SortStudentsList(list<StudentData>& studentsList) {
+
+	auto start = std::chrono::high_resolution_clock::now();
+	studentsList.sort(CompareFunc);
+
+	auto end = std::chrono::high_resolution_clock::now();
+	std::chrono::duration<double> diff = end - start;
+
+	return diff.count();
+}
+
+double SortStudentsVector(vector<StudentData>& studentsVector) {
+
+	auto start = std::chrono::high_resolution_clock::now();
+	sort(studentsVector.begin(), studentsVector.end(), CompareFunc);
+
+	auto end = std::chrono::high_resolution_clock::now();
+	std::chrono::duration<double> diff = end - start;
+
+	return diff.count();
+}
+
+double DivideStudentsInTwoNewVectors(vector<StudentData>& studentsVector) {
+
+	auto start = std::chrono::high_resolution_clock::now();
+	vector<StudentData> lowGradeStudentsVector;
+	vector<StudentData> highGradeStudentsVector;
+
+	for (vector<StudentData>::iterator it = studentsVector.begin(); it != studentsVector.end(); ++it) {
+		if ((*it).finalResult < 5.0) {
+			lowGradeStudentsVector.push_back((*it));
+		}
+		else {
+			highGradeStudentsVector.push_back((*it));
+		}
+	}
+
+	auto end = std::chrono::high_resolution_clock::now();
+	std::chrono::duration<double> diff = end - start;
+
+	return diff.count();
+}
+
+double DivideSudentsInTwoNewLists(list<StudentData>& studentsList) {
+
+	auto start = std::chrono::high_resolution_clock::now();
+	list<StudentData> lowGradeStudentsList;
+	list<StudentData> highGradeStudentsList;
+
+	for (list<StudentData>::iterator it = studentsList.begin(); it != studentsList.end(); ++it) {
+		if ((*it).finalResult < 5.0) {
+			lowGradeStudentsList.push_back((*it));
+		}
+		else {
+			highGradeStudentsList.push_back((*it));
+		}
+	}
+
+	auto end = std::chrono::high_resolution_clock::now();
+	std::chrono::duration<double> diff = end - start;
+
+	return diff.count();
+}
+
+double DivedeStudentsInSameVectorAndOnlyOneNewVector(vector<StudentData>& studentsVector) {
+
+	auto start = std::chrono::high_resolution_clock::now();
+	vector<StudentData> lowGradeStudentsVector;
+
+	for (vector<StudentData>::iterator it = studentsVector.begin(); it != studentsVector.end(); ++it) {
+		if ((*it).finalResult < 5.0) {
+			lowGradeStudentsVector.push_back((*it));
+		}
+	}
+	//std::remove_if(studentsVector.begin(), studentsVector.end(), IsLessThan5);
+	studentsVector.erase(
+		std::remove_if(
+			studentsVector.begin(), studentsVector.end(),
+			IsLessThan5),
+		studentsVector.end());
+
+	auto end = std::chrono::high_resolution_clock::now();
+	std::chrono::duration<double> diff = end - start;
+
+	return diff.count();
+}
+
+double DivedeStudentsInSameListAndOnlyOneNewList(list<StudentData>& studentsList) {
+
+	auto start = std::chrono::high_resolution_clock::now();
+	list<StudentData> lowGradeStudentsList;
+
+	for (list<StudentData>::iterator it = studentsList.begin(); it != studentsList.end(); ++it) {
+		if ((*it).finalResult < 5.0) {
+			lowGradeStudentsList.push_back((*it));
+		}
+	}
+	studentsList.remove_if(IsLessThan5);
+
+	auto end = std::chrono::high_resolution_clock::now();
+	std::chrono::duration<double> diff = end - start;
+
+	return diff.count();
+}
+
+bool IsLessThan5(StudentData studentData) { return studentData.finalResult < 5; }
+
+list<StudentData> GenerateData(int count) {
+	list<StudentData> studentlist;
 	for (int i = 0; i < count; i++) {
 		StudentData studentdata;
 		studentdata.name = "vardas" + to_string(i);
@@ -356,6 +618,7 @@ bool CompareFunc(StudentData studentData0, StudentData studentData1) {
 }
 
 void TestSpeed() {
+
 	GenerateFile(0, 1000);
 	WriteTelemetryToConsole(1000);
 	GenerateFile(1, 10000);
@@ -366,6 +629,47 @@ void TestSpeed() {
 	WriteTelemetryToConsole(1000000);
 	GenerateFile(4, 10000000);
 	WriteTelemetryToConsole(10000000);
+}
+
+void AnalyzeSpeedWithLists(int fileId, int dataCount)
+{
+	list<StudentData> studentsList = GenerateStudentsListData(dataCount);
+	double timeSpentToGenerateStudentsFile = GenerateStudentsFileFromStudentsList(fileId, dataCount, studentsList);
+	studentsList.clear();
+
+	double timeSpentToReadStudentsFile = ReadFromFileToStudentsList(fileId, studentsList);
+
+	double timeSpentToSortStudentsList = SortStudentsList(studentsList);
+	double timeSpentToDivideStudentsInTwoNewLists = DivideSudentsInTwoNewLists(studentsList);
+	double timeSpentToDivedeStudentsInSameListAndOnlyOneNewList =
+		DivedeStudentsInSameListAndOnlyOneNewList(studentsList);
+
+	cout << "list: Failo su " << dataCount << " irasu nuskaitymo laikas: " << timeSpentToReadStudentsFile << endl;
+
+	cout << "list: Failo su " << dataCount << " irasu rusiavimas su sort funkcija laikas: " << timeSpentToSortStudentsList << endl;
+	cout << "list: Failo su " << dataCount << " irasu dalijimo i dvi grupes laikas pagal 1 strategija: " << timeSpentToDivideStudentsInTwoNewLists << endl;
+	cout << "list: Failo su " << dataCount << " irasu dalijimo i dvi grupes laikas pagal 2 strategija: " << timeSpentToDivedeStudentsInSameListAndOnlyOneNewList << endl;
+	cout << "----------------------" << endl;
+
+}
+
+void AnalyzeSpeedWithVectors(int fileId, int dataCount)
+{
+	vector<StudentData> studentsVector = GenerateStudentsVectorData(dataCount);
+	double timeSpentToGenerateStudentsFile = GenerateStudentsFileFromStudentsVector(fileId, dataCount, studentsVector);
+	studentsVector.clear();
+	double timeSpentToReadStudentsFile = ReadFromFileToStudentsVector(fileId, studentsVector);
+	double timeSpentToSortStudentsVector = SortStudentsVector(studentsVector);
+	double timeSpentToDivideStudentsInTwoNewVectors = DivideStudentsInTwoNewVectors(studentsVector);
+	double timeSpentToDivedeStudentsInSameVectorAndOnlyOneNewVector =
+		DivedeStudentsInSameVectorAndOnlyOneNewVector(studentsVector);
+
+	cout << "vector: Failo su " << dataCount << " irasu nuskaitymo laikas: " << timeSpentToReadStudentsFile << endl;
+	cout << "vector: Failo su " << dataCount << " irasu rusiavimas su sort funkcija laikas: " << timeSpentToSortStudentsVector << endl;
+	cout << "vector: Failo su " << dataCount << " irasu dalijimo i dvi grupes laikas pagal 1 strategija: " << timeSpentToDivideStudentsInTwoNewVectors << endl;
+	cout << "vector: Failo su " << dataCount << " irasu dalijimo i dvi grupes laikas pagal 2 strategija: " << timeSpentToDivedeStudentsInSameVectorAndOnlyOneNewVector << endl;
+	cout << "----------------------" << endl;
+
 }
 
 void WriteTelemetryToConsole(int count) {
