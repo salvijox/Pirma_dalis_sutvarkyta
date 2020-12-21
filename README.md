@@ -12,7 +12,7 @@
 * list: Failo su 1000 irasu rusiavimas su sort funkcija laikas: 0.187106
 * list: Failo su 1000 irasu dalijimo i dvi grupes laikas pagal 1 strategija: 0.0070356
 * list: Failo su 1000 irasu dalijimo i dvi grupes laikas pagal 2 strategija: 0.0115766
-
+*  *
 
 * vector: Failo su 1000 irasu nuskaitymo laikas: 0.0319062
 * vector: Failo su 1000 irasu rusiavimas su sort funkcija laikas: 0.389205
@@ -26,7 +26,7 @@
 * list: Failo su 10000 irasu rusiavimas su sort funkcija laikas: 3.45897
 * list: Failo su 10000 irasu dalijimo i dvi grupes laikas pagal 1 strategija: 0.0953259
 * list: Failo su 10000 irasu dalijimo i dvi grupes laikas pagal 2 strategija: 0.129921
-
+*  *
 
 * vector: Failo su 10000 irasu nuskaitymo laikas: 0.441025
 * vector: Failo su 10000 irasu rusiavimas su sort funkcija laikas: 3.11273
@@ -40,7 +40,7 @@
 * list: Failo su 100000 irasu rusiavimas su sort funkcija laikas: 35.5417
 * list: Failo su 100000 irasu dalijimo i dvi grupes laikas pagal 1 strategija: 0.754205
 * list: Failo su 100000 irasu dalijimo i dvi grupes laikas pagal 2 strategija: 1.26376
-
+*  *
 
 * vector: Failo su 100000 irasu nuskaitymo laikas: 2.96233
 * vector: Failo su 100000 irasu rusiavimas su sort funkcija laikas: 24.9359
@@ -54,7 +54,7 @@
 * list: Failo su 1000000 irasu rusiavimas su sort funkcija laikas: 428.759
 * list: Failo su 1000000 irasu dalijimo i dvi grupes laikas pagal 1 strategija: 7.41152
 * list: Failo su 1000000 irasu dalijimo i dvi grupes laikas pagal 2 strategija: 13.5668
-
+*  *
 
 * vector: Failo su 1000000 irasu nuskaitymo laikas: 31.4423
 * vector: Failo su 1000000 irasu rusiavimas su sort funkcija laikas: 264.852
