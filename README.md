@@ -6,7 +6,7 @@ Programa nuskaito studentų duomenis, kuriuos sudaro: vardas, pavardė, n pažym
 > galutinis = 0.4 * vidurkis + 0.6 * egzaminas.
 
 ## Struktūra
-Programą sudaro 2 projektai:
+Programą sudaro 2 duomenų struktūros:
  * Naudojamas vektor.
  * Naudojamas list.
 
