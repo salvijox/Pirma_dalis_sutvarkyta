@@ -16,19 +16,19 @@
         "Entry"
         {
         "MsmKey" = "8:_18AD20B0B09CEF0E83D0373544CD4233"
-        "OwnerKey" = "8:_2BEAFCBB501849A4855B32A90563371E"
+        "OwnerKey" = "8:_4DB3EC9FAFD74528ADECF0AA6DB3A983"
         "MsmSig" = "8:_UNDEFINED"
         }
         "Entry"
         {
-        "MsmKey" = "8:_2BEAFCBB501849A4855B32A90563371E"
+        "MsmKey" = "8:_4DB3EC9FAFD74528ADECF0AA6DB3A983"
         "OwnerKey" = "8:_UNDEFINED"
         "MsmSig" = "8:_UNDEFINED"
         }
         "Entry"
         {
         "MsmKey" = "8:_D6E9B9FA47626341458C46CD8D288DE4"
-        "OwnerKey" = "8:_2BEAFCBB501849A4855B32A90563371E"
+        "OwnerKey" = "8:_4DB3EC9FAFD74528ADECF0AA6DB3A983"
         "MsmSig" = "8:_UNDEFINED"
         }
     }
@@ -183,7 +183,7 @@
         "Name" = "8:Microsoft Visual Studio"
         "ProductName" = "8:Setup"
         "ProductCode" = "8:{9BC267F7-CE43-49B0-A4B8-2B6267CA6E9A}"
-        "PackageCode" = "8:{E36CC777-894D-4B16-90CB-5AEF85D059DF}"
+        "PackageCode" = "8:{C32A0B56-0C7A-403F-B951-B3FE3968B100}"
         "UpgradeCode" = "8:{C642977A-020E-4285-8EE0-167274F48AC7}"
         "AspNetVersion" = "8:4.0.30319.0"
         "RestartWWWService" = "11:FALSE"
@@ -303,7 +303,7 @@
         }
         "Shortcut"
         {
-            "{970C0BB2-C7D0-45D7-ABFA-7EC378858BC0}:_B81D2CF7BF5D4DBA8D2C89872FD9C3A7"
+            "{970C0BB2-C7D0-45D7-ABFA-7EC378858BC0}:_615CA6F878F8482595519613707B8285"
             {
             "Name" = "8:Shortcut to Primary Output from Studentai (Active)"
             "Arguments" = "8:"
@@ -311,7 +311,7 @@
             "ShowCmd" = "3:1"
             "IconIndex" = "3:0"
             "Transitive" = "11:FALSE"
-            "Target" = "8:_2BEAFCBB501849A4855B32A90563371E"
+            "Target" = "8:_4DB3EC9FAFD74528ADECF0AA6DB3A983"
             "Folder" = "8:_B71A405AC0C644CBB95C8267B73E7192"
             "WorkingFolder" = "8:_3540CE4990F6433788B6E4CAEE7A3BAB"
             "Icon" = "8:"
@@ -716,7 +716,7 @@
         }
         "ProjectOutput"
         {
-            "{5259A561-127C-4D43-A0A1-72F10C7B3BF8}:_2BEAFCBB501849A4855B32A90563371E"
+            "{5259A561-127C-4D43-A0A1-72F10C7B3BF8}:_4DB3EC9FAFD74528ADECF0AA6DB3A983"
             {
             "SourcePath" = "8:..\\Studentai\\Release\\Studentai.exe"
             "TargetName" = "8:"
